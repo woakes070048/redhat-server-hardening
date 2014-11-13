@@ -46,93 +46,20 @@
 # File: /etc/puppet/modules/password/manifests/init.pp
 #
 class password {
-	# GuideSection 2.2.3.1
-	# Verify permissions on password related files
-	file {
-		"/etc/passwd":
-			owner => root, 
-			group => root,
-			mode => 644;
-		"/etc/group":
-			owner => root,
-			group => root,
-			mode => 644;
-		"/etc/shadow":
-			owner => root,
-			group => root,
-			mode => 400;
-		"/etc/gshadow":
-			owner => root,
-			group => root,
-			mode => 400;
-		"/etc/libuser.conf":
-			owner => root,
-			group => root,
-			mode => 644,
-			content => template("password/libuser.conf.erb");
-	}	
-	
-	# GuideSection 2.3.1.7
-	# Password expiration
-	exec {
-		"passmaxdays":
-			command => "/bin/sed -i 's/PASS_MAX_DAYS[ \t]*[0-9][0-9]*/PASS_MAX_DAYS\t60/g' /etc/login.defs"
-	}
 
-	exec {
-		"passmindays":
-			command => "/bin/sed -i 's/PASS_MIN_DAYS[ \t]*[0-9][0-9]*/PASS_MIN_DAYS\t7/g' /etc/login.defs"
-	}
+) inherits password::params {
 
-	exec {
-		"passminlength":
-			command => "/bin/sed -i 's/PASS_MIN_LEN[ \t]*[0-9][0-9]*/PASS_MIN_LEN\t8/g' /etc/login.defs"
-	}
+# list each above $variable = $networking::params::variable,
 
-	
-	# GuideSection 2.3.3.5
-	# Upgrade password hashing algorithm
-	exec {
-		"/usr/sbin/authconfig --passalgo=sha512 --update":
-			user => root;
-	}
+# validate_absolute_path($some_path)
+# validate_string($some_string)
+# validate_bool($some_boolean)
+# validate_re($some_regex, ['^\d+$', ''])
+# validate_array($some_array)
+# if $some_setting { validate_something($variable) }
 
-	# GuideSection 2.3.1.5
-	# Verify that no accounts have empty Password Fields
-	exec {
-		"/bin/awk -F: '(\$2 == \"\") {print}' /etc/shadow":
-		user => root,
-		logoutput => true;
-	}
-
-	# GuideSection 2.3.1.6
-	# Verify that No Non-Root Accounts Have UID 0
-	exec {
-		"/bin/awk -F: '(\$3 == \"0\" && \$1 !=\"root\") {print}' /etc/passwd":
-                user => root,
-                logoutput => true;
-        }
-	
-	# GuideSection 2.3.1.4
-	# Block Shell and Login Access for Non-Root System Accounts
-	file {
-		"/etc/puppet/scripts":
-			ensure => "directory",
-			owner => "root",
-			group => "root",
-			mode => 700;
-
-		"/etc/puppet/scripts/checkUsers.bash":
-			owner => root,
-			group => root,
-			mode => 700,
-			source => "puppet:///modules/password/checkUsers.bash";
-	}
-
-	exec {
-		"/etc/puppet/scripts/checkUsers.bash":
-		user =>root,
-		logoutput => true,
-		require => File["/etc/puppet/scripts/checkUsers.bash"];
-	}
+	class { '::networking::install': } ->
+	class { '::networking::config': } ~>
+	class { '::networking::service': } ->
+	Class['::networking']
 }
