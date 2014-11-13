@@ -5,7 +5,8 @@
 #
 class sudo::config {
 
-  file { 'sudoers':
+  file { '/etc/sudoers':
+    ensure  => file,
     path    => $::sudo::params::config_file,
     owner   => 'root',
     group   => 'root',
