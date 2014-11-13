@@ -1,47 +1,33 @@
-# Class: sudo
+# == Class: sudo
 #
-# Description:
-#	sudo ensures the group 'wheel' exists, adds wheel to sudoers file,
-#	and ensures that only wheel members can su -
+# Installs and configures sudo according to USGCB best practices
+#
+# === Parameters
+#
+# [*sample_parameter*]
+#   Explanation of what this parameter affects and what it defaults to.
+#
+# == USGCB info
 #
 # Linux Guide:
-#	2.3.1.2, 2.3.1.3 
+#		2.3.1.2
+# 	2.3.1.3
 #
-# CCE Reference:
-#	None
-#
-class sudo {
-	# GuideSection 2.3.1.3
-	# Configure sudo to improve root auditing
-	package { "sudo":
-		 ensure => installed 
-	}
+# CCERef#:
+#   some CCE ref
 
-	file { "/etc/sudoers":
-		owner   => "root",
-		group   => "root",
-		mode    => 440,
-		source  => "puppet:///modules/sudo/sudoers",
-		require => Package["sudo"],
-	}
+class sudo (
+  $wheel_ensure    = $::sudo::params::wheel_ensure,
+  $config_file     = $::sudo::params::config_file,
+  $config_template = $::sudo::params::config_template,
 
-	group {
-		"wheel":
-			ensure => present;
-	}
+) inherits sudo::params {
 
+	validate_string($wheel_ensure)
+	validate_absolute_path($config_file)
+	validate_string($config_template)
 
-	# GuideSection 2.3.1.2
-	# Limit su access to root account
-	augeas{ "pamsu" :
-                context => "/files/etc/pam.d/",
-                changes => [
-			"ins 01 after su/*[last()]",
-                        "set su/01/type auth",
-			"set su/01/control required",
-			"set su/01/module pam_wheel.so",
-			"set su/01/argument use_uid",
-                ],
-                onlyif =>"match *[/files/etc/pam.d/su/*[type='auth'][control='required'][module='pam_wheel.so']] size == 0"
-        }
+	class { '::sudo::install': } ->
+	class { '::sudo::config': } ~>
+	Class['::sudo']
 }
