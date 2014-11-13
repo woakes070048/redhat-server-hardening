@@ -32,7 +32,7 @@ See the file INSTRUCTIONS for information on how to perform an installation of
 Red Hat Enterprise Linux 5 and configure it to be compliant with the baseline.
 
 ## Acknowledgements
-I consider myself (incredibly) fortunate to live in a time where information is so readily available. This project is an excellent example of such indirect collaboration at its best, through the many contributions of individuals much smarter than I, and whom I will probably never meet, I am able to "stand on the shoulders of giants", and work towards hopefully adding some value to the world.
+This project is made possible through the many contributions of individuals much smarter than I, most of whom I will never meet. I consider myself (incredibly) fortunate to live in a time where information is so readily available, and tools for indirect collaboration are so readily available. Most of all, I am humbled to be able to stand on the shoulders of giants and attempt to add some value to the world.
 
 With the above in mind, I would like to acknowledge the many individuals and projects that I've drawn upon while pursuing this endeavor:
 
