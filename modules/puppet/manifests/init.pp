@@ -1,14 +1,36 @@
+# == Class: module
 #
+# Installs and configures module according to USGCB best practices
 #
+# === Parameters
 #
-# /etc/puppet/modules/puppet/manifests/init.pp
+# [*sample_parameter*]
+#   Explanation of what this parameter affects and what it defaults to.
+#
+# == USGCB info
+#
+# LinuxGuide:
+#   section x
+#		section y
+#
+# CCERef#:
+#   some CCE ref
 
-class puppet {
-	file {	
-		"/etc/puppet/puppet.conf":
-			owner => root, group => wheel, mode => 644,
-			replace => true,
-			source => "puppet:///modules/puppet/puppet.conf";
-	}
-		
+class module (
+
+) inherits module::params {
+
+# list each above $variable = $module::params::variable,
+
+# validate_absolute_path($some_path)
+# validate_string($some_string)
+# validate_bool($some_boolean)
+# validate_re($some_regex, ['^\d+$', ''])
+# validate_array($some_array)
+# if $some_setting { validate_something($variable) }
+
+  class { '::module::install': } ->
+  class { '::module::config': } ~>
+  class { '::module::service': } ->
+  Class['::module']
 }

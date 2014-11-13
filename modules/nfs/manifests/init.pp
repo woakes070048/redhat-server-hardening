@@ -1,49 +1,36 @@
-# /etc/puppet/modules/nfs/manifests/init.pp
+# == Class: nfs
 #
-# Module: nfs
+# Installs and configures nfs according to USGCB best practices
 #
-# Class: nfs
+# === Parameters
 #
-# Description:
-#       This module ensures nfs-related services are not running and disabled at
-#	startup.
+# [*sample_parameter*]
+#   Explanation of what this parameter affects and what it defaults to.
 #
-# Defines:
-#       None
+# == USGCB info
 #
 # LinuxGuide:
-#	3.13.1.1
-#	3.13.1.2
-#	3.13.1.3
-#	3.13.3.1
+#   section x
+#		section y
 #
 # CCERef#:
-#	CCE-4396-8
-#	CCE-3535-2
-#	CCE-3568-3
-#	CCE-4533-6
-#	CCE-4550-0
-#	CCE-4491-7
-#	CCE-4473-5
-#
-class nfs {
-	# GuideSection 3.13
-	# NFS and RPC	
+#   some CCE ref
 
-	# GuideSection 3.13.1.1
-	# disable nfs services
-	service {
-		"nfslock": enable => false, ensure => stopped;
-		"rpcgssd": enable => false, ensure => stopped;
-		"rpcidmapd": enable => false, ensure => stopped;
-	# GuideSection 3.13.1.2
-		"netfs": enable => false, ensure => stopped;
+class nfs (
 
-	# GuideSection 3.13.1.3
-		"portmap": enable => false, ensure => stopped;
+) inherits nfs::params {
 
-	# GuideSection 3.13.3.1
-		"nfs": enable => false, ensure => stopped;
-		"rpcsvcgssd": enable => false, ensure => stopped;
-	}
+# list each above $variable = $nfs::params::variable,
+
+# validate_absolute_path($some_path)
+# validate_string($some_string)
+# validate_bool($some_boolean)
+# validate_re($some_regex, ['^\d+$', ''])
+# validate_array($some_array)
+# if $some_setting { validate_something($variable) }
+
+  class { '::nfs::install': } ->
+  class { '::nfs::config': } ~>
+  class { '::nfs::service': } ->
+  Class['::nfs']
 }
