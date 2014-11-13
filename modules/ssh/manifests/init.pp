@@ -1,65 +1,48 @@
-# Module: ssh
+# == Class: ssh
 #
-# Description:
-#	The ssh module configures the /etc/ssh/sshd_config file to add some 
-#	rules that limit the clients logging into an ssh server.
+# Installs and configures ssh according to USGCB best practices
 #
-# Linux Guide:
-#	3.5.2
-#	3.5.2.1, 3.5.2.3, 3.5.2.4, 3.5.2.5, 3.5.2.6, 3.5.2.7, 3.5.2.8
+# === Parameters
 #
-# CCE Reference:
-#	CCE-3660-8, CCE-3845-5, CCE-4325-7, CCE-4370-3, CCE-4387-7,
-#	CCE-4431-3, CCE-4475-0
+# [*sample_parameter*]
+#   Explanation of what this parameter affects and what it defaults to.
 #
-# TODO:
-#	Some setting in /manifests/settings.pp could determine whether to use
-#	sshd at all.  And if so select one set of rules disabling sshd, and 
-#	if not, select the other set of rules currently enforced.
+# == USGCB info
 #
-#	Tightening down iptables rules would also be recommended.
-#	Guide 3.5.2.9
+# LinuxGuide:
+#   section x
+#		section y
 #
-class ssh {
-	# GuideSection
-	# 3.5.2 3.5.2.1 3.5.2.3 3.5.2.4 3.5.2.5 3.5.2.6 3.5.2.7 3.5.2.8
-	# Configure ssh server
-	augeas::basic-change { "sshd_config, 3.5.2.*" :
-			file    => "/etc/ssh/sshd_config",
-			lens    => "sshd.lns",
-			changes => [
-					"set Protocol 2",
-					"set ClientAliveInterval 300",
-					"set ClientAliveCountMax 0",
-					"set IgnoreRhosts yes",
-					"set HostbasedAuthentication no",
-					"set PermitRootLogin no",
-					"set PermitEmptyPasswords no",
-					"set Banner /etc/issue",
-					"set PermitUserEnvironment no",
-					"set Ciphers aes128-ctr,aes192-ctr,aes256-ctr",
-			],
-		}
+# CCERef#:
+#   some CCE ref
 
-	service { "sshd": 
-		ensure    => true,
-		hasstatus => true,
-		enable    => true,
-		require   => [Package["openssh-server"], Iptables["000 allow ssh"]],
-	}
-	
+class ssh (
 
-	package { 
-		"openssh-clients":
-			ensure => "installed";
-		"openssh-server":
-			ensure => "installed";
-	}
-	
-	 iptables {
-                "000 allow ssh":
-			proto => "tcp",
-			dport => "22",
-			jump  => "ACCEPT",
-        }
+  $client_package_name = $::ssh::params::client_package_name
+  $server_package_name = $::ssh::params::server_package_name
+  $server_service_name = $::ssh::params::server_service_name
+  $client_ensure       = $::ssh::params::client_ensure
+  $server_ensure       = $::ssh::params::server_ensure
+  $ssh_known_hosts     = $::ssh::params::ssh_known_hosts
+  $ssh_config          = $::ssh::params::ssh_config
+  $sshd_config         = $::ssh::params::sshd_config
+
+) inherits ssh::params {
+
+  validate_string($client_package_name)
+  validate_string($server_package_name)
+  validate_string($server_service_name)
+  validate_string($client_ensure)
+  validate_string($server_ensure)
+  validate_absolute_path($ssh_known_hosts)
+  validate_absolute_path($ssh_config)
+  validate_absolute_path($sshd_config)
+
+  class { '::ssh::client::install': } ->
+  class { '::ssh::client::config': }
+
+  class { '::ssh::server::install': } ->
+  class { '::ssh::server::config': } ~>
+  class { '::ssh::server::service': } ->
+  Class['::ssh']
 }
