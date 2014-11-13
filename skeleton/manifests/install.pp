@@ -1,8 +1,8 @@
-# == Class template::install
+# == Class module::install
 #
-class template::install {
+class module::install {
 
-  package { $::template::package_name:
+  package { $::module::package_name:
     ensure => present,
   }
 }

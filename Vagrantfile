@@ -10,6 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # install puppet modules from the forge
   config.vm.provision :shell do |shell|
     shell.inline = "puppet module install puppetlabs-stdlib"
+    shell.inline = "puppet module install herculesteam/augeasproviders"
   end
 
   config.vm.provision "puppet" do |puppet|

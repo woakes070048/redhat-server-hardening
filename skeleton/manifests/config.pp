@@ -1,6 +1,6 @@
-# == Class template::config
+# == Class module::config
 #
-# This class is called from template
+# This class is called from module
 #
-class template::config {
+class module::config {
 }

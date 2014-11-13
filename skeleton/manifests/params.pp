@@ -1,17 +1,17 @@
-# == Class template::params
+# == Class module::params
 #
-# This class is meant to be called from template
+# This class is meant to be called from module
 # It sets variables according to platform
 #
-class template::params {
+class module::params {
   case $::osfamily {
     'Debian': {
-      $package_name = 'template'
-      $service_name = 'template'
+      $package_name = 'module'
+      $service_name = 'module'
     }
     'RedHat', 'Amazon': {
-      $package_name = 'template'
-      $service_name = 'template'
+      $package_name = 'module'
+      $service_name = 'module'
     }
     default: {
       fail("${::operatingsystem} not supported")
