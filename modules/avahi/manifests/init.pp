@@ -1,13 +1,8 @@
+# == Class: avahi
 #
-# Module: avahi
+# Installs and configures avahi according to USGCB best practices
 #
-# Class: avahi
-#
-# Description:
-#    This class disables avahi and removes the corresponding firewall rule.
-#
-# Defines:
-#	None
+# == USGCB info
 #
 # LinuxGuide:
 #	3.7.1.1
@@ -17,23 +12,19 @@
 # CCERef#:
 #	CCE-4365-3
 #
-class avahi {
-	# GuideSection 3.7.1.1
-	# CCE-4365-3
-	# Disable avahi server
-	service {
-		"avahi-daemon":
-			enable    => false,
-			hasstatus => true,
-			ensure    => stopped;
-	}	
-	
-	# GuideSection 3.7.1.2
-	# Remove firewall rule
-	augeas::basic-change { 
-		"Avahi-Firewall, 3.7.1.2": 
-			file    => "/etc/sysconfig/iptables",
-			lens    => "iptables.lns",
-			changes => "remove *[append = 'RH-Firewall-1-INPUT']/*[protocol = 'udp'][dport = '5353'][jump = 'ACCEPT']"
-        }
+class avahi (
+
+  $service_name    = $::avahi::params::service_name
+  $service_ensure  = $::avahi::params::service_ensure
+  $firewall_action = $::avahi::params::firewall_action
+
+) inherits avahi::params {
+
+  verify_string($service_name)
+  verify_string($service_ensure)
+  verify_string($firewall_action)
+
+  class { '::avahi::config': } ~>
+  class { '::avahi::service': } ->
+  Class['::avahi']
 }
