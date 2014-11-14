@@ -10,12 +10,11 @@
 # == USGCB info
 #
 # LinuxGuide:
-#   section x
-#		section y
+# 2.3.4.2
 #
 # CCERef#:
-#   some CCE ref
-
+# CCE-4090-7
+#
 class nfs (
 
 ) inherits nfs::params {
