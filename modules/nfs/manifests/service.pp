@@ -1,7 +1,7 @@
 # == Class nfs::service
 #
 # This class is meant to be called from nfs
-# It ensures services supporting nfs are running
+# It ensures services supporting nfs are disabled unless needed
 #
 class nfs::service {
 

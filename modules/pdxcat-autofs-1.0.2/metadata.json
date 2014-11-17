@@ -1,0 +1,35 @@
+{
+  "name": "pdxcat-autofs",
+  "version": "1.0.2",
+  "source": "https://github.com/pdxcat/puppet-module-autofs",
+  "author": "Reid Vandewiele",
+  "license": "Apache License 2.0",
+  "summary": "Autofs module for puppet",
+  "description": "Autofs module for puppet",
+  "project_page": "https://github.com/pdxcat/puppet-module-autofs",
+  "dependencies": [
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 1.0.0"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.0.0"
+    }
+  ],
+  "types": [
+
+  ],
+  "checksums": {
+    "CHANGELOG": "3d7b8be11395861ea40f82f178cc6446",
+    "LICENSE": "534946505bbef4fb32c5bd699040d1e4",
+    "Modulefile": "822bbb016f53fef0c15cc3d88e16520b",
+    "README.md": "ad268e202a562e28f27f4fa3d06ad083",
+    "manifests/directmount.pp": "9352c5247e714138903aaec0bf0526aa",
+    "manifests/include.pp": "2a353e5a6a40e58f5c386752c0647b4e",
+    "manifests/init.pp": "b0d251fb761ac393d90a969b6acad914",
+    "manifests/mapfile.pp": "25af7ddf532a46dc754d515890f159bd",
+    "manifests/mount.pp": "d57a8287c95404ac5fe1c13d0a55bc1a",
+    "manifests/params.pp": "4c52a342c16b545178c20e39ffb55ea5"
+  }
+}

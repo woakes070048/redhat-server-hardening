@@ -45,5 +45,8 @@ With the above in mind, I would like to acknowledge the many individuals and pro
 ### modules/puppet
 * [fsalum/puppetmaster](https://github.com/fsalum/puppet-puppetmaster)
 
+### modules/autofs
+* [pdxcat/autofs](https://forge.puppetlabs.com/pdxcat/autofs)
+
 ### skeleton
 * [garenthr/puppet-module-skeleton](https://github.com/garethr/puppet-module-skeleton)
