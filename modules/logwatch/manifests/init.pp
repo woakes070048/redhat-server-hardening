@@ -1,30 +1,23 @@
+# == Class: logwatch
 #
-# Module: logwatch
+# See 'modules/puppet' documentation for more
+# information on module parameters.
 #
-# Class: logwatch
+# == About: this module
 #
-# Description:
-#	This class removes the daily logwatch cron job
+# module type:
+#   component
 #
-# Defines:
-#       None
+# conflicts with:
+#   [  ]
 #
-# LinuxGuide:
-#	2.6.1.6.2
+# associated profiles/stacks:
+#   'base'
 #
-# CCERef#:
-#	None
-#
-# Defines:
-#	None
-# 
-class logwatch {
-	# GuideSection 2.6.1.6.2
-	# Disable logwatch if server exists
-	exec {
-		"/bin/rm /etc/cron.daily/0logwatch":
-			onlyif => "/usr/bin/test -e /etc/cron.daily/0logwatch",
-			user => root;
-	}
+class logwatch inherits logwatch::params {
 
+  class { '::logwatch::install': } ->
+  class { '::logwatch::config': } ~>
+  class { '::logwatch::service': } ->
+  Class['::logwatch']
 }
