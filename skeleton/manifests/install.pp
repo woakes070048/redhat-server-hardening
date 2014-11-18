@@ -19,9 +19,9 @@
 # description:
 #   ensures $module_name package and necessary files are present
 #
-class module::install {
+class $module_name::install {
 
-  package { $::module::package_name:
+  package { $::$module_name::package_name:
     ensure => present,
   }
 }

@@ -19,13 +19,9 @@
 # description:
 #   manages configuration of this module via parameters
 #
-class module::params {
+class $module_name::params {
   case $::osfamily {
-    'Debian': {
-      $package_name = 'module'
-      $service_name = 'module'
-    }
-    'RedHat', 'Amazon': {
+    'RedHat': {
       $package_name = 'module'
       $service_name = 'module'
     }
