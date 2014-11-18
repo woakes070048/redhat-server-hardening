@@ -1,7 +1,23 @@
-# == Class module::params
+## == Class: $module_name::params
 #
-# This class is meant to be called from module
-# It sets variables according to platform
+# See 'modules/puppet' documentation for more
+# information on module parameters.
+#
+# == About: this module
+#
+# module type:
+#   component
+#
+# conflicts with:
+#   [  ]
+#
+# associated profiles/stacks:
+#   'base::server'
+#
+# == About: this class
+#
+# description:
+#   manages configuration of this module via parameters
 #
 class module::params {
   case $::osfamily {
@@ -17,4 +33,6 @@ class module::params {
       fail("${::operatingsystem} not supported")
     }
   }
+
+  # validate_variableType($module_name::params::$parameter)
 }
