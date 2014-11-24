@@ -1,4 +1,4 @@
-# == Class: rsyslog
+# == Class: rsyslog::config
 #
 # See 'modules/puppet' documentation for more
 # information on module parameters.
@@ -14,10 +14,10 @@
 # associated profiles/stacks:
 #   'base::server'
 #
-class rsyslog inherits rsyslog::params {
-
-  class { '::rsyslog::install': } ->
-  class { '::rsyslog::config': } ~>
-  class { '::rsyslog::service': } ->
-  Class['::rsyslog']
+# == About: this class
+#
+# description:
+#   manages structure and content of rsyslog configuration
+#
+class rsyslog::config {
 }
