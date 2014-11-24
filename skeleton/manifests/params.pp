@@ -20,15 +20,22 @@
 #   manages configuration of this module via parameters
 #
 class $module_name::params {
+
+  $ensure           = 'absent'
+  
+  $default_packages = ['module']
+  $default_services = ['module']
+
   case $::osfamily {
     'RedHat': {
-      $package_name = 'module'
-      $service_name = 'module'
+      $packages = $default_packages
+      $services = $default_services
     }
     default: {
       fail("${::operatingsystem} not supported")
     }
   }
 
-  # validate_variableType($module_name::params::$parameter)
+  validate_array($packages)
+  validate_array($services)
 }

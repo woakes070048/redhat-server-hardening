@@ -21,7 +21,7 @@
 #
 class $module_name::service {
 
-  service { $::$module_name::params::service_name:
+  service { $::$module_name::params::services:
     ensure     => running,
     enable     => true,
     hasstatus  => true,
