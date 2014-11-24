@@ -24,7 +24,7 @@ class syslog::config {
   file { $::syslog::params::syslog_config_file:
     owner   => 'root',
     group   => 'root',
-    mode    => '0644',
+    mode    => '0644'
     content => template($::syslog::params::syslog_config_template)
   }
 
@@ -32,7 +32,7 @@ class syslog::config {
     ensure  => present,
     owner   => 'root',
     group   => 'root',
-    mode    => '0644',
+    mode    => '0644'
     content => template($::syslog::params::syslog_template)
   }
 }
