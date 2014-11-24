@@ -21,7 +21,7 @@
 #
 class $module_name::install {
 
-  package { $::$module_name::package_name:
-    ensure => present,
+  package { $::$module_name::params::package_name:
+    ensure => present
   }
 }
