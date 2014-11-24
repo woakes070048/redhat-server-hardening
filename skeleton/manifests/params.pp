@@ -21,6 +21,8 @@
 #
 class $module_name::params {
 
+  $ensure           = 'absent'
+  
   $default_packages = ['module']
   $default_services = ['module']
 
