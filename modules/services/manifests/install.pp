@@ -1,4 +1,4 @@
-# == Class: services
+# == Class: services::install
 #
 # See 'modules/puppet' documentation for more
 # information on module parameters.
@@ -14,10 +14,14 @@
 # associated profiles/stacks:
 #   'base::server'
 #
-class services inherits services::params {
+# == About: this class
+#
+# description:
+#   ensures unecessary services aren't installed
+#
+class services::install {
 
-  class { '::services::install': } ->
-  class { '::services::config': } ~>
-  class { '::services::service': } ->
-  Class['::services']
+  package { $::services::params::packages:
+    ensure => absent
+  }
 }
