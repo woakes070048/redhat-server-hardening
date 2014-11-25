@@ -21,7 +21,7 @@
 #
 class $module_name::install {
 
-  package { $::$module_name::params::packags:
+  package { $::$module_name::params::packages:
     ensure => $::$module_name::params::ensure
   }
 }
