@@ -1,24 +1,22 @@
-# Class: sendmail
+# == Class: $module_name
 #
-# Description: 
-#	Ensures the sendmail daemon is off and the package uninstalled.
+# See 'modules/puppet' documentation for more
+# information on module parameters.
 #
-# Guide Reference:
-#	3.11.2.1
+# == About: this module
 #
-# CCE Reference:
-#	CCE-4293-7
+# module type:
+#   component
 #
-class sendmail {
-	# Guide Section 3.11.1.1
-	# Disable and uninstall sendmail
-	service {
-		"sendmail":
-		        ensure    => false,
-			enable    => false;
-	}
-	
-	package { "sendmail":
-			ensure    => absent;
-	}
+# conflicts with:
+#   [  ]
+#
+# associated profiles/stacks:
+#   'base::server'
+#
+class $module_name inherits $module_name::params {
+
+  class { '::$module_name::install': } ->
+  class { '::$module_name::service': } ->
+  Class['::$module_name']
 }
