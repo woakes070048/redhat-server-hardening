@@ -13,8 +13,8 @@ class modprobe::params {
   case $::osfamily {
     'RedHat': {
       $blacklist = [
-        'ath',            # Red Hat CVE-2014-2672
-        'ath9k',          # Red Hat CVE-2014-2672
+        'ath',            # USGCB / Red Hat CVE-2014-2672
+        'ath9k',          # USGCB / Red Hat CVE-2014-2672
         'cramfs',         # USGCB
         'freevxfs',       # USGCB
         'jffs2',          # USGCB
