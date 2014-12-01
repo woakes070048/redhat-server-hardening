@@ -1,28 +1,14 @@
-# Class: postfix
-#
-# Description: 
-#	Ensures the postfix mail service is installed and properly configured.
-#
-# Guide Reference:
-#	3.11.1.1
-#
-# CCE Reference:
-#	TBD
 #
 class postfix {
-	# Guide Section 3.11.1.1
-	# Install postfix
-	
-	package {
-		"postfix":
-			ensure    => installed;
+
+	package { 'postfix':
+		ensure => present
 	}
 
-	# Disable network listening
-	augeas {
-		"postfix-network-listening":
-			context => "/files/etc/postfix/main.cf",
-			changes => "set inet_interfaces localhost",
-			onlyif => "get inet_interfaces != localhost",
+	# 3.16 configure mail transfer agent for local-only mode
+	augeas { 'block usb-storage':
+		context => '/files/etc/modprobe.d/blacklist.conf/',
+		changes => 'set inet_interfaces[last()+1] localhost',
+		onlyif  => "match inet_interfaces[.='localhost'] size == 0"
 	}
 }
