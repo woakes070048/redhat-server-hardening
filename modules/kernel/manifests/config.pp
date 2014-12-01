@@ -1,8 +1,11 @@
-# == Class kernel::config
-#
-# This class is called from kernel
 #
 class kernel::config {
+
+  # 1.6.1 restrict core dumps
+  sysctl { 'fs.suid_dumpable':
+    ensure => present,
+    value  => '0'
+  }
 
   sysctl { 'net.ipv4.ip_forward':
     ensure => present,

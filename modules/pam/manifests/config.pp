@@ -1,6 +1,3 @@
-# == Class pam::config
-#
-# This class is called from pam
 #
 class pam::config {
 
@@ -68,6 +65,16 @@ class pam::config {
       'existing_options', # from desktop settings v. 1.2.5.0
       'remember=24',
     ],
+  }
+
+  # 1.6.1 restrict core dumps
+  pam { 'system-auth/limits':
+    ensure    => present,
+    service   => 'system-auth',
+    type      => 'session',
+    control   => 'required',
+    module    => 'pam_limits.so',
+    arguments => '* hard core 0',
   }
 
   pam { 'system-auth/succeed_if':
