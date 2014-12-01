@@ -1,32 +1,8 @@
-# Module: ldap
 #
-# Class: ldap
-#
-# Description:
-#       This class removes the openLdap server and edits the PAM ldap
-#	configuration.
-#
-# Defines:
-#       None
-#
-# LinuxGuide:
-#       3.12.3.1
-#
-# CCERef#:
-#       CCE-3501-4
-#
-class ldap {
-	# LinuxGuide 3.12.3.1
-	# Install OpenLDAP Server RPM(disabled)
-	package {
-		"openldap-servers":
-		 ensure => absent;
-	}
+class ldap inherits ldap::params {
 
-	augeas {
-		"ldap-tls":
-		context => "/files/etc/ldap.conf",
-		changes => "set tls_checkpeer yes",
-		onlyif  => "get tls_checkpeer != yes",
-	}
+  class { '::ldap::install': } ->
+  class { '::ldap::config': } ~>
+  class { '::ldap::service': } ->
+  Class['::ldap']
 }
